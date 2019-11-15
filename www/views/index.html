@@ -1,0 +1,744 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Upload Page UI</title>
+	<!-- 引入線上 CSS library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<!-- 自定義 CSS -->
+<style type="text/css">
+	html,
+	body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		scroll-behavior: smooth;
+	}
+
+	body {
+		font-family: "Roboto", sans-serif;
+		background: url("https://www.muralswallpaper.com/app/uploads/explorer-kids-map-childrens-room-820x532.jpg") no-repeat center center fixed;
+		background-size: cover;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.upload {
+		position: relative;
+		width: 1000px;
+		height: 700px;
+		box-sizing: border-box;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+		padding-bottom: 20px;
+		background: #fff;
+		-webkit-animation: fadeup 0.5s 0.5s ease both;
+		animation: fadeup 0.5s 0.5s ease both;
+		-webkit-transform: translateY(20px);
+		transform: translateY(20px);
+		opacity: 0;
+	}
+
+	.upload .upload-files header {
+		background: #f8f9fa;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		text-align: center;
+	}
+
+	.upload .upload-files header p {
+		color: rgba(0, 0, 0, 0.9);
+		font-size: 28px;
+		margin: 0;
+		padding: 30px 0;
+	}
+
+	.upload .upload-files header p i {
+		-webkit-transform: translateY(20px);
+		transform: translateY(20px);
+		opacity: 0;
+		font-size: 28px;
+		-webkit-animation: fadeup 0.5s 1s ease both;
+		animation: fadeup 0.5s 1s ease both;
+	}
+
+	.upload .upload-files header p .up {
+		font-weight: bold;
+		-webkit-transform: translateX(-20px);
+		transform: translateX(-20px);
+		display: inline-block;
+		opacity: 0;
+		-webkit-animation: faderight 0.5s 1.5s ease both;
+		animation: faderight 0.5s 1.5s ease both;
+	}
+
+	.upload .upload-files header p .load {
+		display: inline-block;
+		font-weight: 100;
+		margin-left: -8px;
+		-webkit-transform: translateX(-20px);
+		transform: translateX(-20px);
+		opacity: 0;
+		-webkit-animation: faderight 1s 1.5s ease both;
+		animation: faderight 1s 1.5s ease both;
+	}
+
+	.upload .upload-files header p .notify {
+		display: inline-block;
+		font-weight: 100;
+		-webkit-transform: translateX(-20px);
+		transform: translateX(-20px);
+		opacity: 0;
+		-webkit-animation: faderight 1s 1.5s ease both;
+		animation: faderight 1s 1.5s ease both;
+	}
+
+	.upload .upload-files .body {
+		text-align: center;
+		padding: 30px 0;
+	}
+
+	.upload .upload-files .body.hidden {
+		display: none;
+	}
+
+	.upload .upload-files .body input {
+		visibility: hidden;
+	}
+
+	.upload .upload-files .body i {
+		font-size: 50px;
+		color: lightgray;
+	}
+
+	.upload .upload-files .body p {
+		font-size: 16px;
+		padding-top: 15px;
+		line-height: 1.4;
+	}
+
+	.upload .upload-files .body p b,
+	.upload .upload-files .body p a {
+		text-decoration: none;
+	}
+
+	.upload .upload-files .body.active {
+		border: dashed 2px #f8f9fa;
+	}
+
+	.upload .upload-files .body.active i {
+		box-shadow: 0 0 0 -3px #fff, 0 0 0 lightgray,
+			0 0 0 -3px rgba(0, 0, 0, 0.9), 0 0 0 lightgray;
+		-webkit-animation: file 0.5s ease both;
+		animation: file 0.5s ease both;
+	}
+
+	@-webkit-keyframes file {
+		50% {
+			box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray,
+				-8px 8px 0 -3px #fff, -8px 8px 0 lightgray;
+		}
+
+		75%,
+		100% {
+			box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray,
+				-16px 16px 0 -3px #fff, -16px 16px 0 lightgray;
+		}
+	}
+
+	@keyframes file {
+		50% {
+			box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray,
+				-8px 8px 0 -3px #fff, -8px 8px 0 lightgray;
+		}
+
+		75%,
+		100% {
+			box-shadow: -8px 8px 0 -3px #fff, -8px 8px 0 lightgray,
+				-16px 16px 0 -3px #fff, -16px 16px 0 lightgray;
+		}
+	}
+
+	.upload .upload-files .body.active .pointer-none {
+		pointer-events: none;
+	}
+
+	.upload .upload-files footer {
+		width: 100%;
+		margin: 0 auto;
+		height: 0;
+	}
+
+	.upload .upload-files footer .divider {
+		margin: 0 auto;
+		width: 0;
+		border-top: solid 4px #eef0f3;
+		text-align: center;
+		overflow: hidden;
+		transition: width 0.5s ease;
+	}
+
+	.upload .upload-files footer .divider span {
+		display: inline-block;
+		-webkit-transform: translateY(-50px);
+		transform: translateY(-50px);
+		padding-top: 8px;
+	}
+
+	.upload .upload-files footer.hasFiles {
+		height: auto;
+	}
+
+	.upload .upload-files footer.hasFiles .divider {
+		width: 100%;
+	}
+
+	.upload .upload-files footer.hasFiles .divider span {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		transition: -webkit-transform 0.5s 0.5s ease;
+		transition: transform 0.5s 0.5s ease;
+		transition: transform 0.5s 0.5s ease, -webkit-transform 0.5s 0.5s ease;
+	}
+
+	.upload .upload-files footer .list-files {
+		width: 320px;
+		margin: 0 auto;
+		margin-top: 15px;
+		padding-left: 5px;
+		text-align: center;
+		overflow-x: hidden;
+		overflow-y: auto;
+		max-height: 210px;
+	}
+
+	.upload .upload-files footer .list-files::-webkit-scrollbar-track {
+		background-color: rgba(211, 211, 211, 0.25);
+	}
+
+	.upload .upload-files footer .list-files::-webkit-scrollbar {
+		width: 4px;
+		background-color: rgba(211, 211, 211, 0.25);
+	}
+
+	.upload .upload-files footer .list-files::-webkit-scrollbar-thumb {
+		background-color: rgba(248, 249, 250, 0.5);
+	}
+
+	.upload .upload-files footer .list-files .file {
+		width: 300px;
+		min-height: 50px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		opacity: 0;
+		-webkit-animation: fade 0.35s ease both;
+		animation: fade 0.35s ease both;
+	}
+
+	.upload .upload-files footer .list-files .file .name {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		width: 80px;
+		text-align: left;
+	}
+
+	.upload .upload-files footer .list-files .file .progress {
+		width: 175px;
+		height: 5px;
+		border: solid 1px lightgray;
+		border-radius: 2px;
+		background: linear-gradient(to left,
+				rgba(248, 249, 250, 0.2),
+				rgba(248, 249, 250, 0.8)) no-repeat;
+		background-size: 100% 100%;
+	}
+
+	.upload .upload-files footer .list-files .file .progress.active {
+		-webkit-animation: progress 30s linear;
+		animation: progress 30s linear;
+	}
+
+	@-webkit-keyframes progress {
+		from {
+			background-size: 0 100%;
+		}
+
+		to {
+			background-size: 100% 100%;
+		}
+	}
+
+	@keyframes progress {
+		from {
+			background-size: 0 100%;
+		}
+
+		to {
+			background-size: 100% 100%;
+		}
+	}
+
+	.upload .upload-files footer .list-files .file .done {
+		cursor: pointer;
+		width: 40px;
+		height: 40px;
+		background: #007bff;
+		border-radius: 50%;
+		margin-left: -10px;
+		-webkit-transform: scale(0);
+		transform: scale(0);
+		position: relative;
+	}
+
+	.upload .upload-files footer .list-files .file .done:before {
+		content: "View";
+		position: absolute;
+		top: 0;
+		left: -5px;
+		font-size: 24px;
+		opacity: 0;
+	}
+
+	.upload .upload-files footer .list-files .file .done:hover:before {
+		transition: all 0.25s ease;
+		top: -30px;
+		opacity: 1;
+	}
+
+	.upload .upload-files footer .list-files .file .done.anim {
+		-webkit-animation: done1 0.5s ease forwards;
+		animation: done1 0.5s ease forwards;
+	}
+
+	.upload .upload-files footer .list-files .file .done.anim #path {
+		-webkit-animation: done2 2.5s 0.5s ease forwards;
+		animation: done2 2.5s 0.5s ease forwards;
+	}
+
+	.upload .upload-files footer .list-files .file .done #path {
+		stroke-dashoffset: 7387.59423828125;
+		stroke-dasharray: 7387.59423828125 7387.59423828125;
+		stroke: #fff;
+		fill: transparent;
+		stroke-width: 50px;
+	}
+
+	@-webkit-keyframes done2 {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@keyframes done2 {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@-webkit-keyframes done1 {
+		50% {
+			-webkit-transform: scale(0.5);
+			transform: scale(0.5);
+			opacity: 1;
+		}
+
+		80% {
+			-webkit-transform: scale(0.25);
+			transform: scale(0.25);
+			opacity: 1;
+		}
+
+		100% {
+			-webkit-transform: scale(0.5);
+			transform: scale(0.5);
+			opacity: 1;
+		}
+	}
+
+	@keyframes done1 {
+		50% {
+			-webkit-transform: scale(0.5);
+			transform: scale(0.5);
+			opacity: 1;
+		}
+
+		80% {
+			-webkit-transform: scale(0.25);
+			transform: scale(0.25);
+			opacity: 1;
+		}
+
+		100% {
+			-webkit-transform: scale(0.5);
+			transform: scale(0.5);
+			opacity: 1;
+		}
+	}
+
+	.upload .upload-files footer .importar {
+		outline: none;
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 20px;
+		margin: auto;
+		border: solid 1px #f8f9fa;
+		color: #007bff;
+		background: transparent;
+		padding: 8px 15px;
+		border-radius: 4px;
+		font-family: Roboto;
+		line-height: 1;
+		cursor: pointer;
+		-webkit-transform: translateY(15px);
+		transform: translateY(15px);
+		opacity: 0;
+		visibility: hidden;
+		margin-left: calc(50% - 60px);
+	}
+
+	.upload .upload-files footer .importar.active {
+		transition: opacity 0.5s 1.5s ease, background,
+			-webkit-transform 0.5s 1.5s ease;
+		transition: transform 0.5s 1.5s ease, opacity 0.5s 1.5s ease, background;
+		transition: transform 0.5s 1.5s ease, opacity 0.5s 1.5s ease, background,
+			-webkit-transform 0.5s 1.5s ease;
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.upload .upload-files footer .importar:hover {
+		background: #f8f9fa;
+		color: rgba(0, 0, 0, 0.9);
+	}
+
+	@-webkit-keyframes fadeup {
+		to {
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes fadeup {
+		to {
+			-webkit-transform: translateY(0);
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@-webkit-keyframes faderight {
+		to {
+			-webkit-transform: translateX(0);
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes faderight {
+		to {
+			-webkit-transform: translateX(0);
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+
+	@-webkit-keyframes fade {
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes fade {
+		to {
+			opacity: 1;
+		}
+	}
+
+	@media (max-width: 400px) {
+		.upload {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.parallax-landing {
+		color: #fff;
+		padding-top: 200px;
+		padding-bottom: 200px;
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+		background-image: linear-gradient(to bottom, #222 0%, transparent 100%),
+			url(https://i.pinimg.com/originals/39/35/32/393532260f8031c9006015d145365d77.jpg);
+		background-attachment: fixed;
+		background-size: cover;
+		-moz-background-size: cover;
+		-webkit-background-size: cover;
+		background-repeat: no-repeat;
+		background-position: top center;
+	}
+
+	.landing-section {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.demo a {
+		position: absolute;
+		bottom: 20px;
+		left: 49%;
+		z-index: 2;
+		display: inline-block;
+		-webkit-transform: translate(0, -50%);
+		transform: translate(0, -50%);
+		color: #fff;
+		font: normal 400 20px/1 "Josefin Sans", sans-serif;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		transition: opacity 0.3s;
+	}
+
+	.demo a:hover {
+		opacity: 0.5;
+	}
+
+	#section01 a {
+		padding-top: 60px;
+	}
+
+	#section01 a span {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		width: 24px;
+		height: 24px;
+		margin-left: -12px;
+		border-left: 3px solid #fff;
+		border-bottom: 3px solid #fff;
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+		-webkit-animation: sdb04 1.5s infinite;
+		animation: sdb04 1.5s infinite;
+		box-sizing: border-box;
+	}
+
+	@-webkit-keyframes sdb04 {
+		0% {
+			-webkit-transform: rotate(-45deg) translate(0, 0);
+		}
+
+		20% {
+			-webkit-transform: rotate(-45deg) translate(-10px, 10px);
+		}
+
+		40% {
+			-webkit-transform: rotate(-45deg) translate(0, 0);
+		}
+	}
+
+	@keyframes sdb04 {
+		0% {
+			-webkit-transform: rotate(-45deg) translate(0, 0);
+			transform: rotate(-45deg) translate(0, 0);
+		}
+
+		20% {
+			-webkit-transform: rotate(-45deg) translate(-10px, 10px);
+			transform: rotate(-45deg) translate(-10px, 10px);
+		}
+
+		40% {
+			-webkit-transform: rotate(-45deg) translate(0, 0);
+			transform: rotate(-45deg) translate(0, 0);
+		}
+	}
+
+	.nav_show {
+		transition: all 300ms ease-in-out;
+	}
+
+	.up {
+		-webkit-transform: translateY(-200px);
+		transform: translateY(-200px);
+		transition: all 300ms ease-in-out;
+	}
+
+	@media (max-width: 575.98px) {
+		.d-sm-none-custom {
+			display: none !important;
+		}
+	}
+
+	@media (max-width: 575.98px) {
+		.upload {
+			width: 400;
+		}
+	}
+
+	@media (min-width: 576px) and (max-width: 767.98px) {
+		.upload {
+			width: 600px;
+		}
+	}
+
+	@media (min-width: 768px) and (max-width: 991.98px) {
+		.upload {
+			width: 800px;
+		}
+	}
+
+	@media (min-width: 992px) and (max-width: 1199.98px) {
+		.upload {
+			width: 1000px;
+		}
+	}
+</style>
+
+<body>
+	<nav id="main_nav" class="navbar navbar-expand-sm fixed-top navbar-light bg-light shadow p-3 bg-white">
+		<a id="brandLogo" class="navbar-brand pl-5 d-sm-none-custom" href="#">
+			<img src="https://www.childhood.org.au/app/uploads/2017/07/ACF-logo-placeholder.png" style="width: 80px"
+				class="d-inline-block align-top" />
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="#section02">Submission</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="jumbotron jumbotron-fluid parallax-landing shadow-lg bg-white rounded" style="height: 130%">
+		<div class="container demo" id="section01">
+			<h1 class="display-3 font-weight-bold text-center">
+				BlockChain Paper Submission
+			</h1>
+			<p class="lead text-center">
+				Add user by private key. We guarantee your submission has absolute
+				right author order
+			</p>
+			<a href="#section02"><span></span>S T A R T</a>
+		</div>
+	</div>
+
+	<div class="container">
+		<div id="section02" class="px-3 pt-5" style="height:100%">
+			<div class="row justify-content-center">
+				<div class="d-flex align-content-center flex-wrap">
+					<div class="upload">
+						<div class="upload-files">
+							<header>
+								<p>
+									<span class="notify">Upload Now</span>
+								</p>
+							</header>
+							<div class="px-3 pt-1">
+								<form action="/" enctype="multipart/form-data" method="POST">
+									<div class="form-group">
+										<div class="input-group my-3">
+											<input type="file" id="file01" name="_file">
+										</div>
+										<div class="input-group my-3">
+											<input type="text" name="firstName" aria-label="First name" class="form-control"
+												placeholder="First name" id="firstName" />
+										</div>
+										<div class="input-group my-3">
+											<input type="text" name="lastName" aria-label="Last name" class="form-control"
+												placeholder="Last name" id="lastName" />
+										</div>
+										<div class="input-group mb-3">
+											<input type="tel" name="tel" class="form-control" placeholder="Phone" id="phoneNum" />
+										</div>
+										<div class="input-group mb-3">
+											<input type="text" name="org" class="form-control" placeholder="Organization" id="organization" />
+										</div>
+										<div class="input-group mb-3">
+											<input type="text" name="email" class="form-control" aria-label="email"
+												placeholder="test@email.com" id="email" />
+										</div>
+										<div class="input-group mb-3">
+											<textarea class="form-control noresize" name="title" style="resize: none" aria-label="title"
+												placeholder="title" id="title"></textarea>
+										</div>
+										<div class="input-group mb-3">
+											<textarea class="form-control noresize" name="abstract" style="resize: none" aria-label="abstract"
+												placeholder="Abstract" id="abstract"></textarea>
+										</div>
+										<div class="input-group mb-3">
+											<input type="text" class="form-control" name="orcid" aria-label="OCRID" placeholder="ORCID"
+												id="orcid"></input>
+										</div>
+										<div class="d-none">
+											<input id="filename" type="text" name="filename" placeholder="filename"></input>
+										</div>
+									</div>
+
+									<button type="submit" class="float-right btn btn-primary">
+										Submit !
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		//DOM
+		const $ = document.querySelector.bind(document);
+		var navShowBool = false;
+
+		$('#file01').onchange = function () {
+			$("#filename").value = this.value.replace(/.*[\/\\]/, '');
+			// when you look at the bug, the bug is also look at you.
+		};
+
+		$(".navbar-toggler").addEventListener("click", () => {
+			navShowBool = !navShowBool;
+			if (navShowBool == false) {
+				$("#navbarNav").classList.add("collapse");
+			} else {
+				$("#navbarNav").classList.remove("collapse");
+			}
+		});
+
+		var nav = $("#main_nav");
+		var position = 0;
+		window.addEventListener("scroll", function () {
+			if (position < window.pageYOffset) {
+				nav.classList.add("up");
+				nav.classList.remove("nav_show");
+				position = window.pageYOffset;
+			} else {
+				nav.classList.remove("up");
+				nav.classList.add("nav_show");
+				position = window.pageYOffset;
+			}
+		});
+	</script>
+</body>
+
+</html>
